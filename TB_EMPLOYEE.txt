@@ -1,4 +1,4 @@
-
+// Employee file edit due to SQL nedeed got github testing.
 
 CREATE TABLE EMPLOYEE
 (
@@ -18,12 +18,5 @@ CREATE TABLE COMPANY
  COM_LOCATION         TEXT
 );
 
-CREATE TABLE DEPARTMENT
-(
- DEPRT_ID             INTEGER,
- DEPRT_NAME           TEXT,
- DEPRT_LOC            TEXT
-);
- 
 	
     
