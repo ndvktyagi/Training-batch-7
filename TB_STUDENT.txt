@@ -1,0 +1,251 @@
+
+
+==========================================================
+File edited hello how r u
+=========================================================
+
+
+-----------------------------------------------------------------
+--COURSE TABLE SQL
+-----------------------------------------------------------------
+--DROP TABLE COURSE;
+SELECT * FROM COURSE ORDER BY COURSE_ID ASC;
+CREATE TABLE COURSE
+(
+ COURSE_ID               INTEGER    PRIMARY KEY,
+ COURSE_NAME             TEXT       UNIQUE NOT NULL
+);
+
+INSERT INTO COURSE VALUES(1,'B-TECH');
+INSERT INTO COURSE VALUES(2, 'MCA');
+INSERT INTO COURSE VALUES(3, 'MBA');
+INSERT INTO COURSE VALUES(4, 'BCA');
+INSERT INTO COURSE VALUES(5, 'BBA');
+
+UPDATE COURSE SET COURSE_NAME ='BTECH' WHERE COURSE_ID=1
+DELETE FROM COURSE WHERE COURSE_ID=2;
+
+-------------------------------------------------------------------------
+-- BRANCH TABLE SQL
+-------------------------------------------------------------------------
+DROP TABLE BRANCH
+CREATE TABLE BRANCH
+(
+ BRANCH_ID             INTEGER      PRIMARY KEY,
+ BRANCH_NAME           TEXT         NOT NULL,
+ COURSE_ID             INTEGER      REFERENCES COURSE(COURSE_ID),
+ UNIQUE (BRANCH_NAME,COURSE_ID)
+);
+
+SELECT * FROM BRANCH
+
+INSERT INTO BRANCH VALUES(1, 'CS',1);
+INSERT INTO BRANCH VALUES(2, 'IT',1);
+INSERT INTO BRANCH VALUES(3, 'EC',1);
+INSERT INTO BRANCH VALUES(4, 'ME',1);
+INSERT INTO BRANCH VALUES(5, 'FINANCE',3);
+INSERT INTO BRANCH VALUES(6, 'HR',3);
+INSERT INTO BRANCH VALUES(7, 'IT',3);
+INSERT INTO BRANCH VALUES(8, 'IT',NULL);
+INSERT INTO BRANCH VALUES(7, 'MARKETING',3);
+DELETE FROM BRANCH
+
+----------------------------------------------------------------------------
+--STUDENT TABLE SQL
+---------------------------------------------------------------------------
+DROP TABLE STUDENT
+CREATE TABLE STUDENT
+(
+  STU_ID               INTEGER     PRIMARY KEY,
+  STU_NAME             TEXT        NOT NULL,
+  STU_COURSE           INTEGER     NOT NULL REFERENCES COURSE(COURSE_ID),
+  STU_BRANCH           INTEGER     REFERENCES BRANCH(BRANCH_ID),
+  STU_MOBILE           BIGINT      NOT NULL UNIQUE,
+  STU_EMAIL            TEXT        NOT NULL UNIQUE
+);
+
+--DELETE FROM STUDENT
+INSERT INTO STUDENT VALUES(1,'SURYANSH TYAGI',1,1,8278443333,'abc@gmail.com');
+INSERT INTO STUDENT VALUES(2,'PRANAV TYAGI',1,2,9999222200,'game@gmail.com');
+INSERT INTO STUDENT VALUES(3,'ABHISHEK TYAGI',1,1,8278443334,'XXX@gmail.com');
+INSERT INTO STUDENT VALUES(4,'ARNAV GUPTA',3,6,8899887766,'XXY@gmail.com');
+INSERT INTO STUDENT VALUES(5,'VISHAL TYAGI',3,NULL,9910455253,'XZY@gmail.com');
+INSERT INTO STUDENT VALUES(6,'SURYANSH TYAGI',1,1,8278445333,'abcd@gmail.com');
+INSERT INTO STUDENT VALUES(7,'PRANAV TYAGI',1,2,9999722200,'games@gmail.com');
+INSERT INTO STUDENT VALUES(8,'ABHISHEK TYAGI',1,1,8279443334,'XXXX@gmail.com');
+INSERT INTO STUDENT VALUES(9,'ARNAV GUPTA',3,6,8899887866,'XXYZ@gmail.com');
+INSERT INTO STUDENT VALUES(10,'VISHAL TYAGI',3,NULL,9910655253,'XZYMN@gmail.com');
+INSERT INTO STUDENT VALUES(11,'SURYANSH TYAGI',1,1,8278453333,'abcwe@gmail.com');
+INSERT INTO STUDENT VALUES(12,'PRANAV TYAGI',1,2,9999224200,'gamedfg@gmail.com');
+INSERT INTO STUDENT VALUES(13,'ABHISHEK TYAGI',1,1,8278543334,'XXXFF@gmail.com');
+INSERT INTO STUDENT VALUES(14,'ARNAV GUPTA',3,6,8899887776,'XXYWER@gmail.com');
+INSERT INTO STUDENT VALUES(15,'VISHAL TYAGI',3,NULL,9910455353,'XZYWQS@gmail.com');
+
+
+SELECT * FROM STUDENT
+SELECT * FROM STUDENT WHERE STU_NAME LIKE '%SUR%';
+SELECT * FROM STUDENT WHERE STU_NAME = 'PRANAV TYAGI';
+
+CONSTRAINT:-
+--------------------------------------------------
+1. NOT NULL
+2. UNIQUE,
+5. PRIMARY KEY
+4. FOREIGN KEY
+
+
+DROP TABLE STUDENT_FEE;
+CREATE TABLE STUDENT_FEE
+(
+  STU_ID                  INTEGER     NOT NULL,
+  STU_SEMESTER            INTEGER     NOT NULL,
+  STU_COURSE_FEE          INTEGER     NOT NULL ,
+  STU_TOUTION_FEE         INTEGER     NOT NULL,
+  STU_OTHER_FEE           INTEGER             ,
+  STU_REBATE_FEE          INTEGER              ,
+  STU_DUE_DATE            DATE        NOT NULL,
+  STU_PAID_DATE           DATE ,
+  PRIMARY KEY( STU_ID, STU_SEMESTER)
+);
+
+INSERT INTO STUDENT_FEE VALUES(1,1,10000,2200,22000,0,'28-FEB-2019',null);
+INSERT INTO STUDENT_FEE VALUES(1,2,10000,2200,25000,0,'30-AUG-2019',null);
+INSERT INTO STUDENT_FEE VALUES(2,1,10000,2200,22000,0,'28-FEB-2019',null);
+INSERT INTO STUDENT_FEE VALUES(2,2,12000,2200,28000,0,'30-AUG-2019',null);
+INSERT INTO STUDENT_FEE VALUES(3,1,10000,2200,22000,0,'28-FEB-2019','25-FEB-2019');
+INSERT INTO STUDENT_FEE VALUES(3,2,11000,2200,24000,0,'30-AUG-2019',null);
+INSERT INTO STUDENT_FEE VALUES(4,1,10000,2200,22000,0,'28-FEB-2019','02-MAR-2019');
+INSERT INTO STUDENT_FEE VALUES(4,2,13000,2200,26000,0,'30-AUG-2019',null);
+INSERT INTO STUDENT_FEE VALUES(5,1,10000,2200,22000,0,'30-MAR-2020',null);
+INSERT INTO STUDENT_FEE VALUES(5,2,10000,2200,23000,0,'30-MAR-2020',null);
+INSERT INTO STUDENT_FEE VALUES(5,3,10000,2200,24000,0,'30-MAR-2020',null);
+INSERT INTO STUDENT_FEE VALUES(6,3,14000,2200,26000,0,'30-AUG-2019','29-AUG-2019');
+
+
+select * from student s cross join student_fee sf 
+--on s.stu_id = sf.stu_id
+order by s.stu_id
+
+
+select * from student s full join student_fee c on s.stu_id=c.stu_id
+order by s.stu_id;
+
+select stu_name, count(*) from student
+group by stu_name;
+
+select stu_course, stu_branch, count(*) from student
+group by stu_course,stu_branch;
+
+select * from student_fee
+select s.stu_name, sum(sf.stu_course_fee) from student_fee sf
+join student s on s.stu_id=sf.stu_id
+group by s.stu_name
+
+create table emp
+(
+ id       integer,
+ name     text,
+ m_id     integer	
+);
+
+select * from emp
+insert into emp values(1,'A',2);
+insert into emp values(2,'B',2);
+insert into emp values(3,'C',null);
+insert into emp values(4,'D',5);
+insert into emp values(5,'E',null);
+
+select e1.id, e2.id, e1.name,e2.name from emp e1 join emp e2 on e1.m_id = e2.id
+order by e1.id
+
+
+---------------------------------------------------------------------------------
+--View
+---------------------------------------------------------------------------------
+drop view v_student
+create or replace view v_student
+AS
+select s.stu_id,s.stu_name,c.course_name,b.branch_name,s.stu_mobile,s.stu_email from student s
+left join course c on s.stu_course = c.course_id
+left join branch b on s.stu_branch = b.branch_id
+order by s.stu_id
+
+
+select * from v_student
+select * from student order by stu_id
+select * from course order by course_id
+select * from branch order by branch_id
+
+update v_student set stu_name ='MANOJ SINGH',course_name='MCA',branch_name=null  where stu_id=7
+update v_student set stu_name ='MANOJ SINGH'  where stu_id=7
+delete from v_student where stu_id=7
+
+--------------------------------------------------------------------------------------------
+Materiliazied View
+
+--------------------------------------------------------------------------------------------
+drop materialized view v_student_fee_pending;
+create materialized view v_student_fee_pending
+as
+	select s.stu_id,s.stu_name,c.course_name,b.branch_name,s.stu_mobile,s.stu_email,
+	sf.stu_semester,sf.stu_course_fee,sf.stu_toution_fee,sf.stu_other_fee,sf.stu_rebate_fee,sf.stu_due_date,sf.stu_paid_date
+	from student_fee sf
+	left join student s on sf.stu_id = s.stu_id
+	left join course c on s.stu_course = c.course_id
+	left join branch b on s.stu_branch = b.branch_id
+	where sf.stu_paid_date is null
+	order by s.stu_id,sf.stu_semester
+	
+refresh materialized view v_student_fee_pending
+	
+select * from v_student_fee_pending 
+
+------------------------------------------------------------------------------------------
+Function
+-------------------------------------------------------------------------------------------
+DROP FUNCTION get_student_fee_dues
+CREATE OR REPLACE FUNCTION get_student_fee_dues(course text,branch text )
+   RETURNS RECORD AS $$
+DECLARE 
+    stu_fee_pending RECORD;
+    rec_fee RECORD;
+    cur_fee CURSOR(course text,branch text) 
+		for select s.stu_id,s.stu_name,c.course_name,b.branch_name,s.stu_mobile,s.stu_email,
+		sf.stu_semester,sf.stu_course_fee,sf.stu_toution_fee,sf.stu_other_fee,sf.stu_rebate_fee,sf.stu_due_date,sf.stu_paid_date
+		from student_fee sf
+		left join student s on sf.stu_id = s.stu_id
+		left join course c on s.stu_course = c.course_id
+		left join branch b on s.stu_branch = b.branch_id
+		where c.course_name=course and b.branch_name=branch;
+BEGIN
+   -- Open the cursor
+   OPEN cur_fee(course,branch);
+   
+   LOOP
+    -- fetch row into the film
+      FETCH cur_fee INTO rec_fee;
+    -- exit when no more row to fetch
+      EXIT WHEN NOT FOUND;
+ 
+    -- build the output
+      IF rec_fee.stu_paid_date is null THEN 
+	  	 select rec_fee into stu_fee_pending;	
+         --stu_fee_pending.stu_name := rec_fee.stu_name;
+		 --stu_fee_pending.course_name := rec_fee.course_name;
+		 --stu_fee_pending.branch_name := rec_fee.branch_name;
+      END IF;
+   END LOOP;
+  
+   -- Close the cursor
+   CLOSE cur_fee;
+ 
+   RETURN stu_fee_pending;
+END; $$
+ 
+LANGUAGE plpgsql;
+
+select get_student_fee_dues ('BTECH','IT');
+
+
+// I want to add comments for testing
+

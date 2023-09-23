@@ -1,0 +1,29 @@
+
+
+CREATE TABLE EMPLOYEE
+(
+  EMP_ID               INTEGER,
+  EMP_NAME             TEXT,
+  EMP_COMPANY          INTEGER,
+  EMP_DEPART           INTEGER,
+  EMP_MOBILE           INTEGER,
+  EMP_EMAIL            TEXT
+);
+
+
+CREATE TABLE COMPANY
+(
+ COM_ID               INTEGER,
+ COM_NAME             TEXT, 
+ COM_LOCATION         TEXT
+);
+
+CREATE TABLE DEPARTMENT
+(
+ DEPRT_ID             INTEGER,
+ DEPRT_NAME           TEXT,
+ DEPRT_LOC            TEXT
+);
+ 
+	
+    
